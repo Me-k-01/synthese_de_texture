@@ -20,7 +20,7 @@ Permuteur::~Permuteur(){
 
 void Permuteur::generateFlo() {
     int ind = max;
-    Vector<int> possibleIndices ;
+    Vector<int> possibleIndices ; // TODO: initialiser
     for (int i = 0; i<max; i++) {
         int indRdm = random()%possibleIndices.size();
         perm[i] = possibleIndices[indRdm];

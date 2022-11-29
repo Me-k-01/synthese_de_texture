@@ -40,10 +40,12 @@ public:
    * Retourne l'entier suivant.
    */
   int suivant();
+  void generePerm();
+  bool isIn(int in);
 
  private :
   int max;
-  int* perm; // tableau de la permutation.
+  int * perm; // tableau de la permutation.
   int * indices; // tableau des indices � permuter
   int i_perm;  // indice d'avancement dans la permutation.
 

@@ -18,6 +18,7 @@ class Textureur {
 public:
   Textureur();   //constructeur
   ~Textureur();  //destructeur
+
   
   /*!
    * Execute la tache fournie en parametre.

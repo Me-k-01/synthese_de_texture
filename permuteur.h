@@ -1,6 +1,7 @@
 #ifndef _PERMUTEUR_H
 #define	_PERMUTEUR_H
 
+
 /*!
  *
  * Les instances de cette classe sont des iterateurs sur des permutations

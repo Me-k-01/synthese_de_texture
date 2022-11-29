@@ -5,7 +5,7 @@
 #include <string>
 #include <unistd.h>
 #include <float.h>
-#include <limits>
+#include <limits.h>
 
 #include "image_4b.h"
 #include "x11display_code.h"

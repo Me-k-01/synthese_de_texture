@@ -41,7 +41,6 @@ public:
    */
   int suivant();
   void generePerm();
-  bool isIn(int in);
 
  private :
   int max;

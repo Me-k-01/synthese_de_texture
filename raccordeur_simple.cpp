@@ -10,7 +10,7 @@ int RaccordeurSimple::calculerRaccord(MatInt2* distances, int* coupe)
   int y, x;
   for (y = 0; y < hauteur; y++) {
     for (x = 0; x < largeur; x++) {
-      cout += distances->get(y, x);
+      cout += distances->get(y, x); 
     }
   }
   for (y = 0; y < hauteur; y++) {

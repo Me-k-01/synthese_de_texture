@@ -5,6 +5,7 @@
 #include "descripteur_tache.h"
 #include "raccordeur.h"
 #include "raccordeur_simple.h"
+#include "raccordeur_recursif.h"
 #include <ctime>
 
 
@@ -19,7 +20,7 @@ int main(int argc, char **argv){
     DescripteurTache tache;
     
     // valeurs par defaut
-    algo = 1;
+    algo = 0;
     tache.fichierImage = "gravier.tif";
     tache.racineNombreBlocs = 3;
     tache.recouvrement = 20;
@@ -56,22 +57,23 @@ int main(int argc, char **argv){
     tache.choisirMeilleurBloc = true;
     tache.utiliserPermuteur = false;
     switch(algo){
-        case 0:
+        case 0:  // Algo A sans recouvrement
             // sauf si le parametre de recouvrement a ete specifie, le mettre a 1
             if (argc<5) tache.recouvrement = 1;
             tache.choisirMeilleurBloc = false;
-            tache.raccordeur = new RaccordeurSimple(); // Algo A
-            break;
-        case 1:
-            tache.choisirMeilleurBloc = false;
-            tache.utiliserPermuteur = true;
-            tache.raccordeur = new RaccordeurSimple(); // Algo A variante
-            break;
-        case 2:
             tache.raccordeur = new RaccordeurSimple();
             break;
-        case 3:
-            //tache.raccordeur = new RaccordeurRecursifNaif();
+        case 1: // Algo variant avec permutteur et recouvrement 
+            if (argc<5) tache.recouvrement = 1;
+            tache.choisirMeilleurBloc = false;
+            tache.utiliserPermuteur = true;
+            tache.raccordeur = new RaccordeurSimple(); 
+            break;
+        case 2: // Algo B
+            tache.raccordeur = new RaccordeurSimple(); // Algo
+            break;
+        case 3: // Algo C
+            tache.raccordeur = new RaccordeurRecursifNaif();
             break;
         case 4:
           

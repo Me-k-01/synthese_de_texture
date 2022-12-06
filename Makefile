@@ -24,10 +24,10 @@ tp: $(OBJECTS)
 	$(CXX) $(LDFLAGS) -o tp $^ $(XLIBS)
 
 image_4b.o: image_4b.h
-main_tp.o: matrix2d.h descripteur_tache.h raccordeur.h permuteur.h raccordeur_simple.h 
+main_tp.o: matrix2d.h descripteur_tache.h raccordeur.h permuteur.h raccordeur_simple.h raccordeur_recursif.h 
 matrix2d.o: matrix2d.h
 permuteur.o: permuteur.h tools.h
-raccordeur_simple.o: raccordeur_simple.h raccordeur.h matrix2d.h
+raccordeur_simple.o: raccordeur_simple.h raccordeur_recursif.h raccordeur.h matrix2d.h
 textureur.o: textureur.h matrix2d.h descripteur_tache.h raccordeur.h permuteur.h
 x11display_code.o: x11display_code.h
 

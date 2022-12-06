@@ -31,7 +31,7 @@ int RaccordeurRecursifNaif::calculerRaccord(MatInt2* distances, int *coupe) {
 
 
 
-int RaccordeurRecursifNaif::calculerRaccordRecu(MatInt2* distances, int &* coupe, int i, int j) {
+int RaccordeurRecursifNaif::calculerRaccordRecu(MatInt2* distances, int * coupe, int i, int j) {
     int hauteur = distances->nLignes();
     int s = sizeof(int) * hauteur;
 

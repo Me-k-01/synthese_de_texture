@@ -63,14 +63,14 @@ int main(int argc, char **argv){
             tache.choisirMeilleurBloc = false;
             tache.raccordeur = new RaccordeurSimple();
             break;
-        case 1: // Algo variant avec permutteur et recouvrement 
+        case 1: // Algo variant avec permutteur, sans recouvrement 
             if (argc<5) tache.recouvrement = 1;
             tache.choisirMeilleurBloc = false;
             tache.utiliserPermuteur = true;
             tache.raccordeur = new RaccordeurSimple(); 
             break;
         case 2: // Algo B
-            tache.raccordeur = new RaccordeurSimple(); // Algo
+            tache.raccordeur = new RaccordeurSimple(); 
             break;
         case 3: // Algo C
             tache.raccordeur = new RaccordeurRecursifNaif();

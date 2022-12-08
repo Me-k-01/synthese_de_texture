@@ -73,7 +73,7 @@ int main(int argc, char **argv){
             tache.raccordeur = new RaccordeurSimple(); 
             break;
         case 3: // Algo C
-            tache.raccordeur = new RaccordeurRecursifNaif();
+            tache.raccordeur = new RaccordeurRecursifNaif(); // Test du recu naif
             break;
         case 4:
           

@@ -1,38 +1,39 @@
 
 #include "raccordeur_recursif.h"
 #include <cstring>
+#include <limits>
 
-int RaccordeurRecursifNaif::calculerRaccord(MatInt2* distances, int *coupe) {
+int RaccordeurRecursifNaif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     int hauteur = distances->nLignes();
     int largeur = distances->nColonnes();
-    int cout;
-    int * coupe_min = new int[hauteur];
-    int min = calculerRaccordRecu(distances, coupe_min, hauteur-1,0); ;
-  
+    int * coupeCurr = new int[hauteur];
+    //std::cout << "recherche i=" << hauteur-1;
+    fprintf(stderr, "recherche i=" + hauteur-1);
+
+    int coutMin = calculerRaccordRecu(distances, coupeOut, hauteur-1, 0); 
+    
     for (int i = 1; i < largeur; i++){      
-        cout = calculerRaccordRecu(distances, coupe, hauteur-1, i );
+        int cout = calculerRaccordRecu(distances, coupeCurr, hauteur-1, i );
         // Si le nouveau coup est plus petit, on le garde
-        if (cout < min) {
-            min = cout;
-            // et on copy le nouveau chemin minimal
-            memcpy(coupe, coupe_min, sizeof(int) * hauteur);
-            /*for(int j = 0; j < largeur; j++) {
-                coupe_min[j] = coupe[j];
-            }*/
+        if (cout < coutMin) {
+            coutMin = cout;
+            // et on copy le nouveau chemin minimal 
+            memcpy(coupeOut, coupeCurr, sizeof(int) * hauteur);
+            //for(int j = 0; j < largeur; j++) {
+            //    coupe_min[j] = coupe[j];
+            //}
         }
     }
-  
-    memcpy( coupe, coupe_min, sizeof(int) * hauteur);
-    /*for(int j = 0; j < hauteur; j++){
-        coupe[j] = coupe_min[j];      
-    }*/
-    delete[] coupe_min;
-    return min;
+    
+
+    //delete[] coupeCurr;
+    //fprintf(stderr, "" + coupeOut[0]);
+    return coutMin;
 }
 
 
-
 int RaccordeurRecursifNaif::calculerRaccordRecu(MatInt2* distances, int * coupe, int i, int j) {
+    // Coupe correspond à la branche des erreurs
     int hauteur = distances->nLignes();
     // Cas de base
     if (i < 0) { 
@@ -51,14 +52,20 @@ int RaccordeurRecursifNaif::calculerRaccordRecu(MatInt2* distances, int * coupe,
     memcpy( coupeA, coupe, s);
     memcpy( coupeB, coupe, s);
     memcpy( coupeC, coupe, s);
-
     coupe[i] = distances->get(i, j);
     coupe[i] = distances->get(i, j);
     coupe[i] = distances->get(i, j);
 
-    int coutA = calculerRaccordRecu(distances, coupeA, i-1, j-1);
-    int coutB = calculerRaccordRecu(distances, coupeB, i-1, j);
-    int coutC = calculerRaccordRecu(distances, coupeC, i-1, j+1);
+    int coutA; int coutB; int coutC;
+    if (j > 0)
+        coutA = calculerRaccordRecu(distances, coupeA, i-1, j-1);
+    else 
+        coutA = std::numeric_limits<int>::infinity();
+    coutB = calculerRaccordRecu(distances, coupeB, i-1, j);
+    if (j < hauteur-1)
+        coutC = calculerRaccordRecu(distances, coupeC, i-1, j+1);
+    else 
+        coutC = std::numeric_limits<int>::infinity();
 
     // Selection de la branche plus petit et edition de la coupe minimale
     // coutA plus petit

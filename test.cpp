@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
 
     std::cout << "arr[0] = " << arr[0] << std::endl;*/
     int coupeOut[4];
-    MatInt2* distances = new MatInt2(4, 4);
+    MatInt2* distances = new MatInt2(5, 4);
     /*for (int i = 0; i < 4; i++)
     {
         for (int j = 0; j < 4; j++)

@@ -7,26 +7,25 @@
 int RaccordeurRecursifNaif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     int hauteur = distances->nLignes();
     int largeur = distances->nColonnes();
-    //int * coupeCurr = new int[hauteur];
+    int * coupeCurr = new int[hauteur];
     std::cout << "recherche i=" << hauteur-1 << std::endl;
-    //printf("recherche i= %i", hauteur-1);
+
     for (int i = 0; i < hauteur; i++) { coupeOut[i] = 0;}
 
     int coutMin = calculerRaccordRecu(distances, coupeOut, largeur, hauteur, 0, hauteur-1); 
-    /*
     for (int i = 1; i < largeur; i++){      
-        int cout = calculerRaccordRecu(distances, coupeCurr, hauteur-1, i );
+        const int cout = calculerRaccordRecu(distances, coupeCurr, largeur, hauteur, i, hauteur-1 );
         // Si le nouveau coup est plus petit, on le garde
         if (cout < coutMin) {
             coutMin = cout;
             // et on copy le nouveau chemin minimal 
-            memcpy(coupeOut, coupeCurr, sizeof(int) * hauteur);
+            memcpy(coupeOut, coupeCurr, sizeof(coupeCurr) * hauteur);
             //for(int j = 0; j < largeur; j++) {
             //    coupe_min[j] = coupe[j];
             //}
         }
     }
-    */
+    
 
     std::cout << "coupe: ";
     for (int i = 0; i < hauteur; i++) {
@@ -54,7 +53,7 @@ int RaccordeurRecursifNaif::calculerRaccordRecu(MatInt2 * const distances, int *
     int coutMin = std::numeric_limits<int>::max();
 
     // Pour chacun des 3 Branchements possibles
-    for (int displacement = -1; displacement < 1; displacement++) { 
+    for (int displacement = -1; displacement <= 1; displacement++) { 
         const int currX = x + displacement;
 
         // Si l'indice est en dehors de la bande, on évite cette branche
@@ -70,7 +69,7 @@ int RaccordeurRecursifNaif::calculerRaccordRecu(MatInt2 * const distances, int *
         // La somme des erreurs doit être plus petite que celle de la précédente coupe
         if (coutMin > cout) { 
             // On update donc la coupe minimal et le cout
-            memcpy( coupeMin, coupeTest, hauteur * sizeof(int));
+            memcpy( coupeMin, coupeTest, hauteur * sizeof(coupeTest));
             //for (int i = 0; i < hauteur; i++) { coupeMin[i] = coupeTest[i];}
             coutMin = cout;
         }

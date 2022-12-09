@@ -10,6 +10,7 @@ int RaccordeurRecursifNaif::calculerRaccord(MatInt2* distances, int * coupeOut) 
     //int * coupeCurr = new int[hauteur];
     std::cout << "recherche i=" << hauteur-1 << std::endl;
     //printf("recherche i= %i", hauteur-1);
+    for (int i = 0; i < hauteur; i++) { coupeOut[i] = 0;}
 
     int coutMin = calculerRaccordRecu(distances, coupeOut, largeur, hauteur, 0, hauteur-1); 
     /*
@@ -27,26 +28,33 @@ int RaccordeurRecursifNaif::calculerRaccord(MatInt2* distances, int * coupeOut) 
     }
     */
 
-    //delete[] coupeCurr;
-    //fprintf(stderr, "" + coupeOut[0]);
-    std::cout << "coutMin = " << coutMin << std::endl;
+    std::cout << "coupe: ";
+    for (int i = 0; i < hauteur; i++) {
+        std::cout  << coupeOut[i] << " , " ;
+    }
+    
+    std::cout << std::endl << "coutMin = " << coutMin << std::endl;
     return coutMin;
 }
+
+
+
 int RaccordeurRecursifNaif::calculerRaccordRecu(MatInt2 * const distances, int * coupe, const int largeur, const int hauteur, const int x, const int y) { 
     // On ajoute le coût de l'endroit x, y à la coupe actuel 
     int coutCurr = distances->get(y, x); 
-    coupe[x] = coutCurr;
-
+    coupe[y] = coutCurr;
+    //std::cout << "y" << y << std::endl;
     if (y == 0) { 
         // On arrête l'exploration et on retourne le dernier coût
         return coutCurr;
     }
 
     // Sinon on continue l'exploration
-    int coupeMin[hauteur]; 
-    int coutMin = std::numeric_limits<int>::infinity();
-    // Pou chacun des 3 Branchements possibles
-    for (int displacement = -1; displacement < 1; displacement++) {
+    int coupeMin[hauteur];                                                              //for (int i = 0; i < hauteur; i++) { coupeMin[i] = 0;}
+    int coutMin = std::numeric_limits<int>::max();
+
+    // Pour chacun des 3 Branchements possibles
+    for (int displacement = -1; displacement < 1; displacement++) { 
         const int currX = x + displacement;
 
         // Si l'indice est en dehors de la bande, on évite cette branche
@@ -54,19 +62,25 @@ int RaccordeurRecursifNaif::calculerRaccordRecu(MatInt2 * const distances, int *
             continue;
 
         // On cherche le chemin minimal a partir de cette branche
-        int coupeTest[hauteur]; 
+        int coupeTest[hauteur];                                                            //for (int i = 0; i < hauteur; i++) { coupeTest[i] = 0;}
         const int cout = calculerRaccordRecu(distances, coupeTest, largeur, hauteur, currX, y-1);
+         
         
         // Et on décide si l'on doit garder la branche
         // La somme des erreurs doit être plus petite que celle de la précédente coupe
-        if (cout < coutMin) {
+        if (coutMin > cout) { 
             // On update donc la coupe minimal et le cout
             memcpy( coupeMin, coupeTest, hauteur * sizeof(int));
+            //for (int i = 0; i < hauteur; i++) { coupeMin[i] = coupeTest[i];}
             coutMin = cout;
         }
     }
-    // On update la coupe avec le chemin optimal qui a été trouvé
-    memcpy( coupe, coupeMin, hauteur * sizeof(int));
+
+    // On update la coupe avec le chemin optimal qui a été trouvé 
+    //memcpy( coupe, coupeMin, y * sizeof(int));
+    for (int i = 0; i < y; i++) { 
+        coupe[i] = coupeMin[i]; 
+    } 
     // On retourne le cout du chemin depuis la branche optimal
     return coutCurr + coutMin;
 }

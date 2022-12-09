@@ -387,7 +387,7 @@ int Textureur::bestBlockIndex(Raccordeur* raccordeur, int vg, int vh) {
         int cout;
         switch (voisinage) {
             case 0: {
-                cout= Coupe_HB(raccordeur, &table_blocs[vh], &table_blocs[i], coupehb) +
+                cout = Coupe_HB(raccordeur, &table_blocs[vh], &table_blocs[i], coupehb) +
                         Coupe_GD(raccordeur, &table_blocs[vg], &table_blocs[i], coupegd);
                 break;
             }

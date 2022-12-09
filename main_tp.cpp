@@ -56,7 +56,7 @@ int main(int argc, char **argv){
     
     tache.choisirMeilleurBloc = true;
     tache.utiliserPermuteur = false;
-    switch(algo){
+    switch(algo) {
         case 0:  // Algo A sans recouvrement
             // sauf si le parametre de recouvrement a ete specifie, le mettre a 1
             if (argc<5) tache.recouvrement = 1;

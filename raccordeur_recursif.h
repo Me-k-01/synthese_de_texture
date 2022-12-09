@@ -15,8 +15,8 @@ class RaccordeurRecursifNaif : public Raccordeur {
      */
     int calculerRaccord(MatInt2* distances, int * coupe) override; 
     virtual ~RaccordeurRecursifNaif(); // destructeur
-    int calculerRaccordRecu(MatInt2* distances, int * coupe, int i, int j);
-};
+    int calculerRaccordRecu(MatInt2 * const distances, int * coupe, const int largeur, const int hauteur, const int x, const int y);
+};  
 
 #endif	/* _RACCORDEUR_RECURSIF_H */
 

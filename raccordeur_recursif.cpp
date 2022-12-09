@@ -11,6 +11,7 @@ int RaccordeurRecursifNaif::calculerRaccord(MatInt2* distances, int * coupeOut) 
     
     int coutMin = std::numeric_limits<int>::max();
     for (int i = 0; i < largeur; i++) { //largeur   
+        //std::cout << " x=" << i << std::endl;
         int coupeCurr[hauteur];                        
         const int cout = calculerRaccordRecu(distances, coupeCurr, largeur, hauteur, i, hauteur-1);
         // Si le nouveau coup est plus petit, on le garde

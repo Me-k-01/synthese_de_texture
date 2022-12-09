@@ -2,16 +2,17 @@
 #include "raccordeur_recursif.h"
 #include <cstring>
 #include <limits>
+#include <iostream>
 
 int RaccordeurRecursifNaif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     int hauteur = distances->nLignes();
     int largeur = distances->nColonnes();
     int * coupeCurr = new int[hauteur];
-    //std::cout << "recherche i=" << hauteur-1;
-    fprintf(stderr, "recherche i=" + hauteur-1);
+    std::cout << "recherche i=" << hauteur-1 << std::endl;
+    //printf("recherche i= %i", hauteur-1);
 
     int coutMin = calculerRaccordRecu(distances, coupeOut, hauteur-1, 0); 
-    
+    /*
     for (int i = 1; i < largeur; i++){      
         int cout = calculerRaccordRecu(distances, coupeCurr, hauteur-1, i );
         // Si le nouveau coup est plus petit, on le garde
@@ -24,7 +25,7 @@ int RaccordeurRecursifNaif::calculerRaccord(MatInt2* distances, int * coupeOut) 
             //}
         }
     }
-    
+    */
 
     //delete[] coupeCurr;
     //fprintf(stderr, "" + coupeOut[0]);

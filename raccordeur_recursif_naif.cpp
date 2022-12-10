@@ -1,10 +1,10 @@
 
-#include "raccordeur_recursif.h"
+#include "raccordeur_recursif_naif.h"
 #include <cstring>
 #include <limits>
 #include <iostream>
 
-int RaccordeurRecursif::calculerRaccord(MatInt2* distances, int * coupeOut) {
+int RaccordeurRecursifNaif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     const int hauteur = distances->nLignes();
     const int largeur = distances->nColonnes();
     
@@ -27,7 +27,7 @@ int RaccordeurRecursif::calculerRaccord(MatInt2* distances, int * coupeOut) {
   
     return coutMin;
 } 
-int RaccordeurRecursif::calculerRaccordRecu(MatInt2 * const distances, int * coupe, const int largeur, const int hauteur, const int x, const int y) { 
+int RaccordeurRecursifNaif::calculerRaccordRecu(MatInt2 * const distances, int * coupe, const int largeur, const int hauteur, const int x, const int y) { 
     // On ajoute le coût de l'endroit x, y à la coupe actuel 
     int coutCurr = distances->get(y, x); 
     coupe[y] = coutCurr; 
@@ -71,6 +71,6 @@ int RaccordeurRecursif::calculerRaccordRecu(MatInt2 * const distances, int * cou
 }
 
 
-RaccordeurRecursif::~RaccordeurRecursif() {
+RaccordeurRecursifNaif::~RaccordeurRecursifNaif() {
   // pas de ressources a libérer
 }

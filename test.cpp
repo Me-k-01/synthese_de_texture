@@ -1,7 +1,7 @@
-// g++ -Wall -o test test.cpp matrix2d.cpp raccordeur_recursif.cpp && ./test
+// g++ -Wall -o test test.cpp matrix2d.cpp raccordeur_recursif_naif.cpp && ./test
 #include <iostream>
 #include "matrix2d.h"
-#include "raccordeur_recursif.h"
+#include "raccordeur_recursif_naif.h"
 
 void f(int * arr) {
     arr[0] = 1;

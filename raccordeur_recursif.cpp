@@ -4,10 +4,24 @@
 #include <limits>
 #include <iostream>
 
+
 int RaccordeurRecursif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     const int hauteur = distances->nLignes();
     const int largeur = distances->nColonnes();
-    
+
+
+
+    tab_cout=new int [largeur*hauteur];
+     tab_coupe= new int*[largeur*hauteur];
+
+    for(int i=0 ; i< largeur*hauteur ; i++)
+    {
+        tab_cout[i]=-1;
+        tab_coupe[i]=new int[hauteur];
+    }
+   
+     
+
     int coutMin = std::numeric_limits<int>::max();
     for (int i = 0; i < largeur; i++) { //largeur    
         int coupeCurr[hauteur];
@@ -24,11 +38,75 @@ int RaccordeurRecursif::calculerRaccord(MatInt2* distances, int * coupeOut) {
             */
         }
     } 
-  
+
+
+    delete [] tab_cout ;
     return coutMin;
 } 
+
+
+///a tester 
 int RaccordeurRecursif::calculerRaccordRecu(MatInt2 * const distances, int * coupe, const int largeur, const int hauteur, const int x, const int y) { 
-    // On ajoute le coût de l'endroit x, y à la coupe actuel 
+
+    
+    if(tab_cout[x+(y*largeur)]==-1){
+
+           
+
+            if(y==0){
+                tab_cout[x+(y*largeur)]=distances->get(x,y);
+                tab_coupe[x+(y*largeur)][y]=x;
+            }
+            else{
+                int cout_min=std::numeric_limits<int>::max();
+                tab_coupe[x+(y*largeur)][y]=x;
+                        
+                for(int i =-1 ; i<=1 ; i++){
+
+                    int x_suiv= x+i;
+
+                    if(x_suiv<0 || x_suiv >=largeur) continue ;
+                    
+                    int cout_suiv=calculerRaccordRecu(distances,coupe,largeur,hauteur,x_suiv,y-1);
+
+                    if(cout_suiv <= cout_min){
+                        tab_cout[x+(y*largeur)]=distances->get(x,y)+cout_suiv;
+
+                        for(int i=y-1 ; i>=0;i--){
+
+                           tab_coupe[x+(y*largeur)][i]= coupe[i];
+
+                        }
+                       
+                    }
+                   
+                }
+
+            }
+
+
+    }
+    for(int i=y ; i>=0;i--){
+
+        coupe[i]=tab_coupe[x+(y*largeur)][i];
+
+    }
+    return tab_cout[x+(y*largeur)];
+
+
+
+
+}
+
+
+RaccordeurRecursif::~RaccordeurRecursif() {
+  // pas de ressources a libérer
+}
+
+
+/*
+
+// On ajoute le coût de l'endroit x, y à la coupe actuel 
     int coutCurr = distances->get(y, x); 
     coupe[y] = coutCurr; 
     // Cas de base
@@ -68,9 +146,4 @@ int RaccordeurRecursif::calculerRaccordRecu(MatInt2 * const distances, int * cou
     //for (int i = 0; i < hauteur; i++) { coupe[i] = coupeMin[i];}
     // On retourne le cout du chemin depuis la branche optimal
     return coutCurr + coutMin;
-}
-
-
-RaccordeurRecursif::~RaccordeurRecursif() {
-  // pas de ressources a libérer
-}
+*/

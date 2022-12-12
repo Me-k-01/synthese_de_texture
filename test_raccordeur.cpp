@@ -35,26 +35,24 @@ int main(int argc, char **argv) {
     std::cout << std::endl; 
 
     Raccordeur * racRecu = new RaccordeurRecursif();
-    int coupeOut2[5];
-    coutTotal = racRecu->calculerRaccord(distances, coupeOut2);
+    int coupeOutRecu[5];
+    coutTotal = racRecu->calculerRaccord(distances, coupeOutRecu);
     std::cout << "cout total Sans calcul redondant: " << coutTotal << std::endl;
     std::cout << "coupe: ";
     for (int i = 0; i < 5; i++) {
-        std::cout  << coupeOut2[i] << " , " ;
+        std::cout  << coupeOutRecu[i] << " , " ;
     } 
     std::cout << std::endl; 
 
-    Raccordeur * racItr = new RaccordeurRecursif();
-    int coupeOut3[5];
-    coutTotal = racItr->calculerRaccord(distances, coupeOut3);
+    Raccordeur * racItr = new RaccordeurIteratif();
+    int coupeOutItr[5];
+    coutTotal = racItr->calculerRaccord(distances, coupeOutItr);
     std::cout << "cout total Sans calcul redondant: " << coutTotal << std::endl;
     std::cout << "coupe: ";
     for (int i = 0; i < 5; i++) {
-        std::cout  << coupeOut3[i] << " , " ;
+        std::cout  << coupeOutItr[i] << " , " ;
     } 
     std::cout << std::endl; 
-
-    
 
     return 0;
 }

@@ -8,29 +8,39 @@
 int RaccordeurIteratif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     const int hauteur = distances->nLignes();
     const int largeur = distances->nColonnes(); 
-    int * const tab_cout = new int [largeur * hauteur]; // Pour l'opti de mémoire, on pourra conserver un tableau[largeur] qui change à chaque étape y.
-    int ** const tab_coupe = new int*[largeur * hauteur];  
+    // Pour l'opti de mémoire, on pourra conserver un tableau[largeur] qui change à chaque étape y.
+    int tab_cout [largeur]; 
+    int tab_coupe [largeur][hauteur];  
 
     ////////////// Initialisation des tableaux de mémoire des calculs //////////////
     for (int x=0 ; x < largeur ; x++) {
-        for (int y = 0; y < hauteur; y++) { 
-            const int mem_index = x + y * largeur;
-            tab_cout[mem_index] = -1;
-            tab_coupe[mem_index] = new int[hauteur];
-            tab_coupe[mem_index][0] = distances->get(y, x);
-        }
+        tab_cout[x] = distances->get(0, x); 
+        tab_coupe[x][0] = tab_cout[x];
     } 
 
-
     ////////////// Calcul de toutes les coupes ////////////// 
-    for (int y = 0; y < hauteur; y++)   {  
-        
-        // TODO: Implémenter la solution itérative
-        /*
-            ajouter du code ici qui modifie cout_curr et coupe_curr
-        */
-        for (int x = 0; x < largeur; x++) {
-            
+    for (int y = 1; y < hauteur; y++)   {   
+        for (int x = 0; x < largeur; x++) {  
+            int cout_min = std::numeric_limits<int>::max(); 
+            int new_tab_cout[largeur]; // Nouvelle ligne de cout total
+
+            // On inspecte les 3 voisins de la ligne précédente
+            for (int displacement_x = -1; displacement_x <= 1; displacement_x++) { 
+                const int prev_x = x + displacement_x; // x du voisin du dessus 
+                // Si x est hors de la matrice, on évite cette branche qui est en dehors de la bande.
+                if (prev_x < 0 || prev_x >= largeur) continue; 
+
+                // On choisit le meilleur coût total parmi ceux de la ligne précédente
+                if (cout_min > tab_cout[prev_x] ) { 
+                    new_tab_cout[x] = tab_cout[prev_x] + distances->get(y, x);  
+                    // On update le tableau de la meilleur coupe
+                    memcpy(tab_coupe[x], tab_coupe[prev_x], y * sizeof(int)); // On recopie de 0 a y-1
+                    cout_min = tab_cout[prev_x];
+                }
+            }
+            tab_coupe[x][y] = distances->get(y, x); 
+            // On remplace la ligne courante avec la nouvelle ligne qui vient d'être calculée
+            memcpy(tab_cout, new_tab_cout, largeur * sizeof(int)); 
         }
  
     } 
@@ -39,12 +49,8 @@ int RaccordeurIteratif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     // La coupe optimal est celle qui possède le coût total le plus bas
     int ind_min = getMinIndex(tab_cout, largeur); 
     // On copie le chemin minimal dans coupeOut
-    memcpy(coupeOut, tab_coupe[ind_min], sizeof(int) * hauteur);  
+    memcpy(coupeOut, tab_coupe[ind_min], hauteur * sizeof(int));  
     int cout_min = tab_cout[ind_min];
-
-    // Libération de l'espace mémoire alloué au tableau
-    delete [] tab_cout ;
-    delete [] tab_coupe ;
     
     return cout_min;
 }  

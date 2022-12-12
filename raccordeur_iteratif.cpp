@@ -22,7 +22,7 @@ int RaccordeurIteratif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     ////////////// Calcul de toutes les coupes ////////////// 
     for (int y = 1; y < hauteur; y++)   {  
         int new_tab_cout[largeur]; // Nouvelle ligne de cout total 
-        //int new_tab_coupe[largeur][hauteur];
+        int new_tab_coupe[largeur][hauteur];
 
         for (int x = 0; x < largeur; x++) {  
             int cout_min = std::numeric_limits<int>::max(); 
@@ -36,20 +36,21 @@ int RaccordeurIteratif::calculerRaccord(MatInt2* distances, int * coupeOut) {
                 if (x_voisin < 0 || x_voisin >= largeur) continue; 
 
                 // On choisit le meilleur coût total parmi les 3 voisins
-                if (tab_cout[x_voisin] < cout_min) { 
-                    x_cout_min = x_voisin;
+                if (tab_cout[x_voisin] < cout_min) {
                     cout_min = tab_cout[x_voisin];
+                    x_cout_min = x_voisin;
                 }
             }
-
-            new_tab_cout[x] = cout_min + distances->get(y, x);  
+ 
             // On update le tableau de la meilleur coupe 
-            memcpy(tab_coupe[x], tab_coupe[x_cout_min], y * sizeof(int)); // On recopie de 0 à y-1
-            tab_coupe[x][y] = distances->get(y, x);  
+            memcpy(new_tab_coupe[x], tab_coupe[x_cout_min], y * sizeof(int)); // On recopie de 0 à y-1
+            new_tab_coupe[x][y] = distances->get(y, x); 
+            // Et le cout total 
+            new_tab_cout[x] = cout_min + distances->get(y, x);  
         }
         // On remplace la ligne courante avec la nouvelle ligne qui vient d'être calculée
         memcpy(tab_cout, new_tab_cout, largeur * sizeof(int)); 
- 
+        memcpy(tab_coupe, new_tab_coupe, largeur * hauteur * sizeof(int)); 
     } 
 
     ////////////// Selection de la coupe optimal ////////////// 

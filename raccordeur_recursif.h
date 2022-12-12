@@ -14,13 +14,17 @@ class RaccordeurRecursif : public Raccordeur {
      * Le code effectif se trouve dans raccordeur_recursif.cpp
      */
     private :
-        int * tab_cout;//stockage des cout de coupe
-        int ** tab_coupe ;//stockage des coupes minimales
+        int largeur;
+        int hauteur;
+        int * tab_cout; // Stockage des cout de coupe
+        int ** tab_coupe; // Stockage des coupes minimales
+        MatInt2 * distances;
     public :
-        
         int calculerRaccord(MatInt2* distances, int * coupe) override; 
         virtual ~RaccordeurRecursif(); // destructeur
-        virtual int calculerRaccordRecu(MatInt2 * const distances, int * coupe, const int largeur, const int hauteur, const int x, const int y);
+        int calculerRaccordRecu(int * coupe, const int x, const int y);
+        int recuSansCalcRedondant(int * coupe, const int x, const int y); 
+        //virtual int recuOptiMem(int * coupe, const int x, const int y);
 
 };  
 

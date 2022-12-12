@@ -1,7 +1,8 @@
-// g++ -Wall -o test_raccordeur test_raccordeur.cpp matrix2d.cpp raccordeur_recursif_naif.cpp && ./test
+// g++ -Wall -o test test_raccordeur.cpp matrix2d.cpp raccordeur_recursif_naif.cpp raccordeur_recursif.cpp && ./test
 #include <iostream>
 #include "matrix2d.h"
-#include "raccordeur_recursif_naif.h"
+//#include "raccordeur_recursif_naif.h"
+#include "raccordeur_recursif.h"
 
 void f(int * arr) {
     arr[0] = 1;
@@ -22,7 +23,8 @@ int main(int argc, char **argv) {
     distances->set(3, 0, 2);distances->set(3, 1, 4);distances->set(3, 2, 3);distances->set(3, 3, 1);
     distances->set(4, 0, 4);distances->set(4, 1, 3);distances->set(4, 2, 1);distances->set(4, 3, 2);
 
-    Raccordeur * rac = new RaccordeurRecursifNaif();
+    //Raccordeur * rac = new RaccordeurRecursifNaif();
+    Raccordeur * rac = new RaccordeurRecursif();
     int coutTotal = rac->calculerRaccord(distances, coupeOut);
     std::cout << "cout total: " << coutTotal << std::endl;
     std::cout << "coupe: ";

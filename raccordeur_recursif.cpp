@@ -121,7 +121,7 @@ int RaccordeurRecursif::recuSansCalcRedondant(int * const coupe, const int x, co
 
     // À la fin, on enregistre la coupe minimal à partir du point x, y 
     memcpy(coupe, coupe_min, y * sizeof(int)); 
-    // Et on le mémorise la coupe du chemin optimal trouvé et son cout total 
+    // Et on le mémorise la coupe du chemin optimal trouvé et son coût total 
     tab_cout[mem_index] = cout_curr + cout_min; 
     memcpy(tab_coupe[mem_index], coupe, hauteur * sizeof(int));
     // On retourne le cout du chemin depuis la branche optimal

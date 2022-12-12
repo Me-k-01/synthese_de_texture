@@ -7,14 +7,15 @@
 
 int RaccordeurRecursif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     hauteur = distances->nLignes();
-    largeur = distances->nColonnes();
-    this->distances = distances;
+    largeur = distances->nColonnes(); 
     tab_cout = new int [largeur * hauteur];
     tab_coupe = new int*[largeur * hauteur];
+    this->distances = distances;
 
-    for(int i=0 ; i < largeur*hauteur ; i++) {
+    for(int i=0 ; i < largeur * hauteur ; i++) {
         tab_cout[i] = -1;
         tab_coupe[i] = new int[hauteur];
+        //for (int j = 0; j < hauteur; j++) { tab_coupe[i][j] = 0; }
     }
      
 
@@ -30,19 +31,19 @@ int RaccordeurRecursif::calculerRaccord(MatInt2* distances, int * coupeOut) {
         }
     } 
 
-
     delete [] tab_cout ;
     delete [] tab_coupe ;
     return cout_min;
 } 
 
 
-///a tester 
+/// calculerRaccordRecu de Thimotée
+/*
 int RaccordeurRecursif::calculerRaccordRecu(int * const coupe, const int x, const int y) { 
-    int mem_index = x + y*largeur;
+    const int mem_index = x + y*largeur;
 
     if (tab_cout[mem_index] == -1) {
-        if (y==0) {
+        if (y == 0) {
             tab_cout[mem_index] = distances->get(x,y);
             tab_coupe[mem_index][y] = x;
         } else {
@@ -67,18 +68,18 @@ int RaccordeurRecursif::calculerRaccordRecu(int * const coupe, const int x, cons
             }
         }
     }
-    for(int i=y ; i>=0;i--) {
-        coupe[i]=tab_coupe[mem_index][i];
+    for(int i=y ; i>=0 ; i--) {
+        coupe[i] = tab_coupe[mem_index][i];
     }
     return tab_cout[mem_index];
 }
-
-// En cours de création
+*/
+ 
 int RaccordeurRecursif::recuSansCalcRedondant(int * const coupe, const int x, const int y) {  
-    int mem_index = x + y*largeur;
+    const int mem_index = x + y * largeur;
     // Si la coupe à déjà été calculé une fois, on retourne celle-ci
-    if (tab_cout[mem_index] != -1) {  
-        memcpy( coupe, tab_coupe[mem_index], hauteur * sizeof(int));
+    if (tab_cout[mem_index] != -1) { 
+        memcpy(coupe, tab_coupe[mem_index], hauteur * sizeof(int));
         return tab_cout[mem_index];
     }
 
@@ -97,7 +98,6 @@ int RaccordeurRecursif::recuSansCalcRedondant(int * const coupe, const int x, co
     // Sinon on continue l'exploration
     int coupe_min[hauteur];      
     int cout_min = std::numeric_limits<int>::max();
-
     // Pour chacun des 3 Branchements possibles
     for (int displacement_x = -1; displacement_x <= 1; displacement_x++) { 
         const int next_x = x + displacement_x; // x du voisin du dessus
@@ -114,18 +114,18 @@ int RaccordeurRecursif::recuSansCalcRedondant(int * const coupe, const int x, co
         // La somme des erreurs doit être plus petite que celle de la précédente coupe
         if (cout_min > cout) { 
             // On ne garde que le cout minimal et sa coupe
-            memcpy( coupe_min, coupe_test, hauteur * sizeof(int));
+            memcpy(coupe_min, coupe_test, hauteur * sizeof(int));
             cout_min = cout;
         }
     }
 
     // À la fin, on enregistre la coupe minimal à partir du point x, y 
-    memcpy( coupe, coupe_min, y * sizeof(int)); 
-    // Et on le mémorise le cout et la coupe du chemin optimal trouvé   
-    tab_cout[mem_index] = cout_min; 
-    memcpy( tab_coupe[mem_index], coupe, hauteur * sizeof(int));
+    memcpy(coupe, coupe_min, y * sizeof(int)); 
+    // Et on le mémorise la coupe du chemin optimal trouvé et son cout total 
+    tab_cout[mem_index] = cout_curr + cout_min; 
+    memcpy(tab_coupe[mem_index], coupe, hauteur * sizeof(int));
     // On retourne le cout du chemin depuis la branche optimal
-    return cout_curr + cout_min;
+    return tab_cout[mem_index];
 }
 
 RaccordeurRecursif::~RaccordeurRecursif() {

@@ -13,7 +13,7 @@ int RaccordeurRecursif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     ////////////// Initialisation des tableaux de mémoire des calculs //////////////
     tab_cout = new int [largeur * hauteur];
     tab_coupe = new int*[largeur * hauteur];
-    for(int i=0 ; i < largeur * hauteur ; i++) {
+    for (int i=0 ; i < largeur * hauteur ; i++) {
         tab_cout[i] = -1;
         tab_coupe[i] = new int[hauteur];
     }
@@ -21,9 +21,9 @@ int RaccordeurRecursif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     ////////////// Récupération de la coupe optimal //////////////
     int cout_min = std::numeric_limits<int>::max();
     // On test la coupe optimal a partir de chacun des pixels de la permiere ligne
-    for (int i = 0; i < largeur; i++) {    
+    for (int x = 0; x < largeur; x++) {    
         int coupe_curr[hauteur];
-        const int cout_curr = recuSansCalcRedondant(coupe_curr, i, hauteur-1);
+        const int cout_curr = recuSansCalcRedondant(coupe_curr, x, hauteur-1);
         // Si le nouveau coup est plus petit, on le garde
         if (cout_curr < cout_min) {
             cout_min = cout_curr;
@@ -35,7 +35,7 @@ int RaccordeurRecursif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     // Libération de l'espace mémoire alloué au tableau
     delete [] tab_cout ;
     delete [] tab_coupe ;
-    
+
     return cout_min;
 } 
 

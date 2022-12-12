@@ -3,6 +3,7 @@
 #include "matrix2d.h"
 #include "raccordeur_recursif_naif.h"
 #include "raccordeur_recursif.h"
+#include "raccordeur_iteratif.h"
 
 void f(int * arr) {
     arr[0] = 1;
@@ -33,14 +34,27 @@ int main(int argc, char **argv) {
     } 
     std::cout << std::endl; 
 
-    Raccordeur * rac = new RaccordeurRecursif();
+    Raccordeur * racRecu = new RaccordeurRecursif();
     int coupeOut2[5];
-    coutTotal = rac->calculerRaccord(distances, coupeOut2);
+    coutTotal = racRecu->calculerRaccord(distances, coupeOut2);
     std::cout << "cout total Sans calcul redondant: " << coutTotal << std::endl;
     std::cout << "coupe: ";
     for (int i = 0; i < 5; i++) {
         std::cout  << coupeOut2[i] << " , " ;
     } 
     std::cout << std::endl; 
+
+    Raccordeur * racItr = new RaccordeurRecursif();
+    int coupeOut3[5];
+    coutTotal = racItr->calculerRaccord(distances, coupeOut3);
+    std::cout << "cout total Sans calcul redondant: " << coutTotal << std::endl;
+    std::cout << "coupe: ";
+    for (int i = 0; i < 5; i++) {
+        std::cout  << coupeOut3[i] << " , " ;
+    } 
+    std::cout << std::endl; 
+
+    
+
     return 0;
 }

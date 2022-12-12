@@ -13,11 +13,8 @@ class RaccordeurIteratif : public Raccordeur {
      * le calcul du raccord (\see{Raccordeur#calculerRaccord}).
      * Le code effectif se trouve dans raccordeur_iteratif.cpp
      */
-    private :
-        int largeur;
-        int hauteur;
-        int * tab_cout; // Stockage des cout de coupe
-        int ** tab_coupe; // Stockage des coupes minimales 
+    private : 
+        int getMinIndex(const int * const arr, const int size);
     public :
         int calculerRaccord(MatInt2* distances, int * coupe) override; 
         virtual ~RaccordeurIteratif(); // destructeur  

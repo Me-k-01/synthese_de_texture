@@ -1,8 +1,7 @@
 
 #include "raccordeur_recursif_naif.h"
 #include <cstring>
-#include <limits>
-#include <iostream>
+#include <limits> 
 
 int RaccordeurRecursifNaif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     hauteur = distances->nLignes();

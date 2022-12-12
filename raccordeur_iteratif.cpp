@@ -2,15 +2,16 @@
 #include "raccordeur_iteratif.h"
 #include <cstring>
 #include <limits>
-#include <iostream>
 
 
 int RaccordeurIteratif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     const int hauteur = distances->nLignes();
     const int largeur = distances->nColonnes(); 
-    // Pour l'opti de mémoire, on pourra conserver un tableau[largeur] qui change à chaque étape y.
-    int tab_cout [largeur]; 
-    int tab_coupe [largeur][hauteur];  
+    // Pour l'optimisation de mémoire:
+    // On pourra avoir un tableau[largeur] qui change à chaque étape y.
+    int tab_cout[largeur]; 
+    // Ainsi qu'un tableau[largeur][hauteur] qui évolue au fils des lignes.
+    int tab_coupe[largeur][hauteur];  
 
     ////////////// Initialisation des tableaux de mémoire des calculs //////////////
     for (int x=0 ; x < largeur ; x++) {
@@ -19,29 +20,35 @@ int RaccordeurIteratif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     } 
 
     ////////////// Calcul de toutes les coupes ////////////// 
-    for (int y = 1; y < hauteur; y++)   {   
+    for (int y = 1; y < hauteur; y++)   {  
+        int new_tab_cout[largeur]; // Nouvelle ligne de cout total 
+        //int new_tab_coupe[largeur][hauteur];
+
         for (int x = 0; x < largeur; x++) {  
             int cout_min = std::numeric_limits<int>::max(); 
-            int new_tab_cout[largeur]; // Nouvelle ligne de cout total
+            int x_cout_min; 
 
-            // On inspecte les 3 voisins de la ligne précédente
+            // Selection du chemin le moins couteux
+            // Pour cela on inspecte les 3 voisins de la ligne précédente
             for (int displacement_x = -1; displacement_x <= 1; displacement_x++) { 
-                const int prev_x = x + displacement_x; // x du voisin du dessus 
+                const int x_voisin = x + displacement_x; // x du voisin du dessus 
                 // Si x est hors de la matrice, on évite cette branche qui est en dehors de la bande.
-                if (prev_x < 0 || prev_x >= largeur) continue; 
+                if (x_voisin < 0 || x_voisin >= largeur) continue; 
 
-                // On choisit le meilleur coût total parmi ceux de la ligne précédente
-                if (cout_min > tab_cout[prev_x] ) { 
-                    new_tab_cout[x] = tab_cout[prev_x] + distances->get(y, x);  
-                    // On update le tableau de la meilleur coupe
-                    memcpy(tab_coupe[x], tab_coupe[prev_x], y * sizeof(int)); // On recopie de 0 a y-1
-                    cout_min = tab_cout[prev_x];
+                // On choisit le meilleur coût total parmi les 3 voisins
+                if (tab_cout[x_voisin] < cout_min) { 
+                    x_cout_min = x_voisin;
+                    cout_min = tab_cout[x_voisin];
                 }
             }
-            tab_coupe[x][y] = distances->get(y, x); 
-            // On remplace la ligne courante avec la nouvelle ligne qui vient d'être calculée
-            memcpy(tab_cout, new_tab_cout, largeur * sizeof(int)); 
+
+            new_tab_cout[x] = cout_min + distances->get(y, x);  
+            // On update le tableau de la meilleur coupe 
+            memcpy(tab_coupe[x], tab_coupe[x_cout_min], y * sizeof(int)); // On recopie de 0 à y-1
+            tab_coupe[x][y] = distances->get(y, x);  
         }
+        // On remplace la ligne courante avec la nouvelle ligne qui vient d'être calculée
+        memcpy(tab_cout, new_tab_cout, largeur * sizeof(int)); 
  
     } 
 

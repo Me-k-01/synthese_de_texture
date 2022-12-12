@@ -1,8 +1,7 @@
 
 #include "raccordeur_recursif.h"
 #include <cstring>
-#include <limits>
-#include <iostream>
+#include <limits> 
 
 
 int RaccordeurRecursif::calculerRaccord(MatInt2* distances, int * coupeOut) {

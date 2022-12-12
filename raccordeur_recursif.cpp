@@ -7,31 +7,35 @@
 
 int RaccordeurRecursif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     hauteur = distances->nLignes();
-    largeur = distances->nColonnes(); 
-    tab_cout = new int [largeur * hauteur];
-    tab_coupe = new int*[largeur * hauteur];
+    largeur = distances->nColonnes();  
     this->distances = distances;
 
+    ////////////// Initialisation des tableaux de mémoire des calculs //////////////
+    tab_cout = new int [largeur * hauteur];
+    tab_coupe = new int*[largeur * hauteur];
     for(int i=0 ; i < largeur * hauteur ; i++) {
         tab_cout[i] = -1;
         tab_coupe[i] = new int[hauteur];
     }
      
-
+    ////////////// Récupération de la coupe optimal //////////////
     int cout_min = std::numeric_limits<int>::max();
-    for (int i = 0; i < largeur; i++) { //largeur    
+    // On test la coupe optimal a partir de chacun des pixels de la permiere ligne
+    for (int i = 0; i < largeur; i++) {    
         int coupe_curr[hauteur];
         const int cout_curr = recuSansCalcRedondant(coupe_curr, i, hauteur-1);
         // Si le nouveau coup est plus petit, on le garde
         if (cout_curr < cout_min) {
             cout_min = cout_curr;
-            // et on copy le nouveau chemin minimal dans coupeOut
+            // Et on copie le nouveau chemin minimal dans coupeOut
             memcpy(coupeOut, coupe_curr, sizeof(int) * hauteur); 
         }
     } 
 
+    // Libération de l'espace mémoire alloué au tableau
     delete [] tab_cout ;
     delete [] tab_coupe ;
+    
     return cout_min;
 } 
 
@@ -85,7 +89,7 @@ int RaccordeurRecursif::recuSansCalcRedondant(int * const coupe, const int x, co
     // On ajoute le coût de l'endroit x, y à la coupe actuel 
     int cout_curr = distances->get(y, x); 
     coupe[y] = cout_curr;  
-    // Cas de base
+    ////////////// Cas de base //////////////
     if (y == 0) { 
         // On arrête l'exploration de la branche et on retourne le dernier coût
         // Sans oublier d'enregistrer le bout du chemin dans la mémoire
@@ -97,6 +101,8 @@ int RaccordeurRecursif::recuSansCalcRedondant(int * const coupe, const int x, co
     // Sinon on continue l'exploration
     int coupe_min[hauteur];      
     int cout_min = std::numeric_limits<int>::max();
+
+    ////////////// Calcul de la coupe optimale du dessus //////////////
     // Pour chacun des 3 Branchements possibles
     for (int displacement_x = -1; displacement_x <= 1; displacement_x++) { 
         const int next_x = x + displacement_x; // x du voisin du dessus
@@ -104,7 +110,7 @@ int RaccordeurRecursif::recuSansCalcRedondant(int * const coupe, const int x, co
         // Si x est hors de la matrice, on évite cette branche qui est en dehors de la bande.
         if (next_x < 0 || next_x >= largeur) continue;
 
-        // Recherche du chemin minimal à partir de cette branche
+        ////////////// Recherche du chemin minimal à partir de cette branche //////////////
         int coupe_test[hauteur];  
         // On lance la recu sur la nouvelle branche et on recupère le coût total minimal
         const int cout = recuSansCalcRedondant(coupe_test, next_x, y-1);
@@ -118,6 +124,7 @@ int RaccordeurRecursif::recuSansCalcRedondant(int * const coupe, const int x, co
         }
     }
 
+    ////////////// Fin //////////////
     // À la fin, on enregistre la coupe minimal à partir du point x, y 
     memcpy(coupe, coupe_min, y * sizeof(int)); 
     // Et on le mémorise la coupe du chemin optimal trouvé et son coût total 

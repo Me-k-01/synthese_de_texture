@@ -11,11 +11,14 @@ int RaccordeurIteratif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     tab_cout = new int [largeur * hauteur];
     tab_coupe = new int*[largeur * hauteur];
 
+    ////////////// Initialisation des tableaux de mémoire des calculs //////////////
     for(int i=0 ; i < largeur * hauteur ; i++) {
         tab_cout[i] = -1;
         tab_coupe[i] = new int[hauteur];
     } 
 
+    ////////////// Récupération de la coupe optimal //////////////
+    // On test la coupe optimal a partir de chacun des pixels de la permiere ligne
     int cout_min = std::numeric_limits<int>::max();
     for (int i = 0; i < largeur; i++) { //largeur    
         int coupe_curr[hauteur];
@@ -35,8 +38,10 @@ int RaccordeurIteratif::calculerRaccord(MatInt2* distances, int * coupeOut) {
         }
     } 
 
+    // Libération de l'espace mémoire alloué au tableau
     delete [] tab_cout ;
     delete [] tab_coupe ;
+    
     return cout_min;
 }  
  

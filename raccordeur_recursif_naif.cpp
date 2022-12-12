@@ -8,8 +8,10 @@ int RaccordeurRecursifNaif::calculerRaccord(MatInt2* distances, int * coupeOut) 
     hauteur = distances->nLignes();
     largeur = distances->nColonnes();
     this->distances = distances;
-    int coutMin = std::numeric_limits<int>::max();
-    for (int i = 0; i < largeur; i++) { //largeur    
+ 
+    // On test la coupe optimal a partir de chacun des pixels de la permiere ligne
+    int coutMin = std::numeric_limits<int>::max(); 
+    for (int i = 0; i < largeur; i++) {    
         int coupeCurr[hauteur];
         const int coutCurr = calculerRaccordRecu(coupeCurr, i, hauteur-1);
         // Si le nouveau coup est plus petit, on le garde

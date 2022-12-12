@@ -15,18 +15,17 @@ int RaccordeurRecursif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     for(int i=0 ; i < largeur * hauteur ; i++) {
         tab_cout[i] = -1;
         tab_coupe[i] = new int[hauteur];
-        //for (int j = 0; j < hauteur; j++) { tab_coupe[i][j] = 0; }
     }
      
 
     int cout_min = std::numeric_limits<int>::max();
     for (int i = 0; i < largeur; i++) { //largeur    
         int coupe_curr[hauteur];
-        const int cout = recuSansCalcRedondant(coupe_curr, i, hauteur-1);
+        const int cout_curr = recuSansCalcRedondant(coupe_curr, i, hauteur-1);
         // Si le nouveau coup est plus petit, on le garde
-        if (cout < cout_min) {
-            cout_min = cout;
-            // et on copy le nouveau chemin minimal sur le pointeur coupeOut
+        if (cout_curr < cout_min) {
+            cout_min = cout_curr;
+            // et on copy le nouveau chemin minimal dans coupeOut
             memcpy(coupeOut, coupe_curr, sizeof(int) * hauteur); 
         }
     } 

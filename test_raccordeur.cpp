@@ -1,4 +1,4 @@
-// g++ -Wall -o test test.cpp matrix2d.cpp raccordeur_recursif_naif.cpp && ./test
+// g++ -Wall -o test_raccordeur test_raccordeur.cpp matrix2d.cpp raccordeur_recursif_naif.cpp && ./test
 #include <iostream>
 #include "matrix2d.h"
 #include "raccordeur_recursif_naif.h"

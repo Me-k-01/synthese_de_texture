@@ -13,10 +13,14 @@ class RaccordeurRecursifNaif : public Raccordeur {
      * le calcul du raccord (\see{Raccordeur#calculerRaccord}).
      * Le code effectif se trouve dans raccordeur_recursif_naif.cpp
      */
-    int calculerRaccord(MatInt2* distances, int * coupe) override; 
-    virtual ~RaccordeurRecursifNaif(); // destructeur
-    int calculerRaccordRecu(MatInt2 * const distances, int * coupe, const int largeur, const int hauteur, const int x, const int y);
-
+    private:
+        MatInt2 * distances;
+        int largeur;
+        int hauteur;
+        int calculerRaccordRecu(int * coupe, const int x, const int y);
+    public :        
+        int calculerRaccord(MatInt2* distances, int * coupe) override; 
+        virtual ~RaccordeurRecursifNaif(); // destructeur 
 };  
 
 #endif	/* _RACCORDEUR_RECURSIF_NAIF_H */

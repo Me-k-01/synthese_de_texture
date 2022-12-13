@@ -91,7 +91,7 @@ void Textureur::init(DescripteurTache& tache) {
   fprintf(stderr,"point21 (on doit voir l'image %s)\n",fichier);
 
   printf("cliquer dans l'image  pour continuer\n");
-  tex_screen->Click();
+  //tex_screen->Click();
 
   fprintf(stderr,"point22\n");
   	
@@ -445,9 +445,9 @@ void Textureur::doAlgo(Raccordeur* raccordeur) {
     }
     screen->DisplayImage(im_res->GetLinePtr(0), res_w, res_h);
     printf("c'est tout - cliquer dans l'image resultat pour finir\n");
-    screen->Click();
+    //screen->Click();
     screen->DisplayImage(im_res->GetLinePtr(0), res_w, res_h);
     printf("c'est tout - cliquer dans l'image resultat pour finir\n");
-    screen->Click();
+    //screen->Click();
 }
 

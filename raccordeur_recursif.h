@@ -19,9 +19,7 @@ class RaccordeurRecursif : public Raccordeur {
         int * tabCout; // Stockage des cout de coupe
         int ** tabCoupe; // Stockage des coupes minimales
         MatInt2 * distances;
-        //int calculerRaccordRecu(int * const coupe, const int x, const int y);  // à Thimotée
         int recuSansCalcRedondant(int * const coupe, const int x, const int y); 
-        //int recuOptiMem(int * coupe, const int x, const int y);
     public :
         int calculerRaccord(MatInt2* distances, int * coupe) override; 
         virtual ~RaccordeurRecursif(); // destructeur  

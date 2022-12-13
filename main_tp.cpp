@@ -6,6 +6,7 @@
 #include "raccordeur.h"
 #include "raccordeur_simple.h"
 #include "raccordeur_recursif.h"
+#include "raccordeur_iteratif.h"
 #include <ctime>
 
 
@@ -69,14 +70,18 @@ int main(int argc, char **argv){
             tache.utiliserPermuteur = true;
             tache.raccordeur = new RaccordeurSimple(); 
             break;
-        case 2: // Algo B
+        case 2: // Algo 
             tache.raccordeur = new RaccordeurSimple(); 
             break;
-        case 3: // Algo C
+        case 3: // Solution itérative sans calcul redondant 
+            tache.choisirMeilleurBloc = false;
+            tache.utiliserPermuteur = true;
             tache.raccordeur = new RaccordeurRecursif(); // Test du recu naif
             break;
-        case 4:
-          
+        case 4: // 
+            tache.choisirMeilleurBloc = false;
+            tache.utiliserPermuteur = true;
+            tache.raccordeur = new RaccordeurIteratif(); // Test du recu naif
             break;
         case 5:
             

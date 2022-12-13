@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
     Raccordeur * racItr = new RaccordeurIteratif();
     int coupeOutItr[5];
     coutTotal = racItr->calculerRaccord(distances, coupeOutItr);
-    std::cout << "cout total Sans calcul redondant: " << coutTotal << std::endl;
+    std::cout << "cout total Sans calcul iteratif: " << coutTotal << std::endl;
     std::cout << "coupe: ";
     for (int i = 0; i < 5; i++) {
         std::cout  << coupeOutItr[i] << " , " ;

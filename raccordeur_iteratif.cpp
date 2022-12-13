@@ -1,65 +1,73 @@
 
 #include "raccordeur_iteratif.h"
 #include <cstring>
-#include <limits> 
+#include <limits>
+#include <iostream>
  
 int RaccordeurIteratif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     const int hauteur = distances->nLignes();
     const int largeur = distances->nColonnes(); 
     // Pour l'optimisation de mémoire:
     // On pourra avoir un tableau[largeur] qui change à chaque étape y.
-    int tab_cout[largeur]; 
+    int tabCout[largeur]; 
     // Ainsi qu'un tableau[largeur][hauteur] qui évolue au fils des lignes.
-    int tab_coupe[largeur][hauteur];  
+    int tabCoupe[largeur][hauteur];  
 
     ////////////// Initialisation des tableaux de mémoire des calculs //////////////
     for (int x=0 ; x < largeur ; x++) {
-        tab_cout[x] = distances->get(0, x); 
-        tab_coupe[x][0] = tab_cout[x];
+        tabCout[x] = distances->get(0, x); 
+        tabCoupe[x][0] = x; //tabCout[x];
     } 
 
     ////////////// Calcul de toutes les coupes ////////////// 
     for (int y = 1; y < hauteur; y++)   {  
-        int new_tab_cout[largeur]; // Nouvelle ligne de cout total 
-        int new_tab_coupe[largeur][hauteur];
+        int newTabCout[largeur]; // Nouvelle ligne de cout total 
+        int newTabCoupe[largeur][hauteur];
 
         for (int x = 0; x < largeur; x++) {  
-            int cout_min = std::numeric_limits<int>::max(); 
-            int x_cout_min; 
+            int coutMin = std::numeric_limits<int>::max(); 
+            int couMinX; 
 
             // Selection du chemin le moins couteux
             // Pour cela on inspecte les 3 voisins de la ligne précédente
-            for (int displacement_x = -1; displacement_x <= 1; displacement_x++) { 
-                const int x_voisin = x + displacement_x; // x du voisin du dessus 
+            for (int displacementX = -1; displacementX <= 1; displacementX++) { 
+                const int voisinX = x + displacementX; // x du voisin du dessus 
                 // Si x est hors de la matrice, on évite cette branche qui est en dehors de la bande.
-                if (x_voisin < 0 || x_voisin >= largeur) continue; 
+                if (voisinX < 0 || voisinX >= largeur) continue; 
 
                 // On choisit le meilleur coût total parmi les 3 voisins
-                if (tab_cout[x_voisin] < cout_min) {
-                    cout_min = tab_cout[x_voisin];
-                    x_cout_min = x_voisin;
+                if (tabCout[voisinX] < coutMin) {
+                    coutMin = tabCout[voisinX];
+                    couMinX = voisinX;
                 }
             }
  
-            // On update le tableau de la meilleur coupe 
-            memcpy(new_tab_coupe[x], tab_coupe[x_cout_min], y * sizeof(int)); // On recopie de 0 à y-1
-            new_tab_coupe[x][y] = distances->get(y, x); // On edit la ligne courante
+            // On update le tableau de la meilleur coupe  
+            memcpy(newTabCoupe[x], tabCoupe[couMinX], y * sizeof(int)); // On recopie de 0 à y-1
+            newTabCoupe[x][y] = x; // On edit la ligne courante
             // Et le cout total 
-            new_tab_cout[x] = cout_min + distances->get(y, x);  
+            newTabCout[x] = coutMin + distances->get(y, x);  
         }
         // On remplace la ligne courante avec la nouvelle ligne qui vient d'être calculée
-        memcpy(tab_cout, new_tab_cout, largeur * sizeof(int)); 
-        memcpy(tab_coupe, new_tab_coupe, largeur * hauteur * sizeof(int)); // On remplace
-    }  
+        memcpy(tabCout, newTabCout, largeur * sizeof(int)); 
+        memcpy(tabCoupe, newTabCoupe, largeur * hauteur * sizeof(int)); // On remplace
+    } 
 
+    // Test print 
+    /*for (int i = 0; i < largeur; i++) {
+        for (int j = 0; j < hauteur; j++) {
+            std::cout << tabCoupe[i][j] << " , ";
+        }
+        std::cout << std::endl;
+    } */
     ////////////// Selection de la coupe optimal ////////////// 
     // La coupe optimal est celle qui possède le coût total le plus bas
-    int ind_min = getMinIndex(tab_cout, largeur); 
+    int indMin = getMinIndex(tabCout, largeur); 
     // On copie le chemin minimal dans coupeOut
-    memcpy(coupeOut, tab_coupe[ind_min], hauteur * sizeof(int));  
-    int cout_min = tab_cout[ind_min];
+    memcpy(coupeOut, tabCoupe[indMin], hauteur * sizeof(int));  
+    int coutMin = tabCout[indMin];
     
-    return cout_min;
+    return coutMin;
 }   
 
 // Trouve l'indice du minimum d'un tableau

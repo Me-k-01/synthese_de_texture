@@ -5,3 +5,19 @@ Trois étudiants ont participés a ce projet:
 - Florian AUBERVAL
 - Romain SIAUDEAU
 - Timothée BEHUET
+
+Pour compiler le programme:
+```sh
+make tp
+```
+
+Pour executer le programme:
+```sh
+./tp ./img.png numero_algo
+```
+
+
+Test du raccordeur sur l'exemple du tp:
+```sh
+g++ -Wall -o test test_raccordeur.cpp matrix2d.cpp raccordeur_recursif_naif.cpp raccordeur_recursif.cpp raccordeur_iteratif.cpp && ./test
+```

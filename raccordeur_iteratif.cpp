@@ -1,9 +1,8 @@
 
 #include "raccordeur_iteratif.h"
 #include <cstring>
-#include <limits>
-
-
+#include <limits> 
+ 
 int RaccordeurIteratif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     const int hauteur = distances->nLignes();
     const int largeur = distances->nColonnes(); 
@@ -44,14 +43,14 @@ int RaccordeurIteratif::calculerRaccord(MatInt2* distances, int * coupeOut) {
  
             // On update le tableau de la meilleur coupe 
             memcpy(new_tab_coupe[x], tab_coupe[x_cout_min], y * sizeof(int)); // On recopie de 0 à y-1
-            new_tab_coupe[x][y] = distances->get(y, x); 
+            new_tab_coupe[x][y] = distances->get(y, x); // On edit la ligne courante
             // Et le cout total 
             new_tab_cout[x] = cout_min + distances->get(y, x);  
         }
         // On remplace la ligne courante avec la nouvelle ligne qui vient d'être calculée
         memcpy(tab_cout, new_tab_cout, largeur * sizeof(int)); 
-        memcpy(tab_coupe, new_tab_coupe, largeur * hauteur * sizeof(int)); 
-    } 
+        memcpy(tab_coupe, new_tab_coupe, largeur * hauteur * sizeof(int)); // On remplace
+    }  
 
     ////////////// Selection de la coupe optimal ////////////// 
     // La coupe optimal est celle qui possède le coût total le plus bas
@@ -61,13 +60,13 @@ int RaccordeurIteratif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     int cout_min = tab_cout[ind_min];
     
     return cout_min;
-}  
+}   
 
 // Trouve l'indice du minimum d'un tableau
 int RaccordeurIteratif::getMinIndex(const int * const array, const int size) {  
     int ind_min = 0; 
     for (int i = 1; i < size; i++) { 
-        if (array[ind_min] < array[i]) { 
+        if (array[ind_min] > array[i]) { 
             ind_min = i; 
         }
     } 

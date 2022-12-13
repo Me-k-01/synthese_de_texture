@@ -7,6 +7,7 @@
 # 5 Travail demandé
 
 ### 2. Impl ́ementez une variante de l’algorithme (a). Un g ́en ́erateur al ́eatoire de permutation de blocs permet d’ ́equilibrer le nombre d’occurences de chaque bloc.
+
 cf "permuteur.cpp" pour voir le fonctionnement de la focntion de permutation
 
 

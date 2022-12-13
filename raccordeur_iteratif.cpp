@@ -2,7 +2,6 @@
 #include "raccordeur_iteratif.h"
 #include <cstring>
 #include <limits>
-#include <iostream>
  
 int RaccordeurIteratif::calculerRaccord(MatInt2* distances, int * coupeOut) {
     const int hauteur = distances->nLignes();
@@ -51,15 +50,7 @@ int RaccordeurIteratif::calculerRaccord(MatInt2* distances, int * coupeOut) {
         // On remplace la ligne courante avec la nouvelle ligne qui vient d'être calculée
         memcpy(tabCout, newTabCout, largeur * sizeof(int)); 
         memcpy(tabCoupe, newTabCoupe, largeur * hauteur * sizeof(int)); // On remplace
-    } 
-
-    // Test print 
-    /*for (int i = 0; i < largeur; i++) {
-        for (int j = 0; j < hauteur; j++) {
-            std::cout << tabCoupe[i][j] << " , ";
-        }
-        std::cout << std::endl;
-    } */
+    }  
     ////////////// Selection de la coupe optimal ////////////// 
     // La coupe optimal est celle qui possède le coût total le plus bas
     int indMin = getMinIndex(tabCout, largeur); 

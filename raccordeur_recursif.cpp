@@ -111,15 +111,15 @@ int RaccordeurRecursif::recuSansCalcRedondant(int * const coupe, const int x, co
 
         ////////////// Recherche du chemin minimal à partir de cette branche //////////////
         int coupeTest[hauteur];  
-        // On lance la recu sur la nouvelle branche et on recupère le coût total minimal
+        // On continue la recu sur la nouvelle branche et on recupère le coût total minimal
         const int cout = recuSansCalcRedondant(coupeTest, nextX, y-1);
          
         // Et on décide si l'on doit garder la branche
         // La somme des erreurs doit être plus petite que celle de la précédente coupe
         if (coutMin > cout) { 
-            // On ne garde que le cout minimal et sa coupe
-            memcpy(coupeMin, coupeTest, hauteur * sizeof(int));
+            // On ne garde que le coût minimal et sa coupe
             coutMin = cout;
+            memcpy(coupeMin, coupeTest, hauteur * sizeof(int)); 
         }
     }
 
@@ -128,7 +128,7 @@ int RaccordeurRecursif::recuSansCalcRedondant(int * const coupe, const int x, co
     memcpy(coupe, coupeMin, y * sizeof(int)); 
     // Et on le mémorise la coupe du chemin optimal trouvé et son coût total 
     tabCout[memIndex] = coutCurr + coutMin; 
-    memcpy(tabCoupe[memIndex], coupe, hauteur * sizeof(int));
+    memcpy(tabCoupe[memIndex], coupe, (y+1) * sizeof(int));
     // On retourne le cout du chemin depuis la branche optimal
     return tabCout[memIndex];
 }

@@ -17,7 +17,7 @@ int RaccordeurRecursifNaif::calculerRaccord(MatInt2* distances, int * coupeOut) 
         if (coutCurr < coutMin) {
             coutMin = coutCurr;
             // et on copy le nouveau chemin minimal sur le pointeur coupeOut
-            memcpy(coupeOut, coupeCurr, sizeof(int) * hauteur);
+            memcpy(coupeOut, coupeCurr, hauteur * sizeof(int));
         }
     } 
   
@@ -26,7 +26,7 @@ int RaccordeurRecursifNaif::calculerRaccord(MatInt2* distances, int * coupeOut) 
 int RaccordeurRecursifNaif::calculerRaccordRecu(int * coupe, const int x, const int y) { 
     // On ajoute le coût de l'endroit x, y à la coupe actuel 
     int coutCurr = distances->get(y, x); 
-    coupe[y] = coutCurr; 
+    coupe[y] = x; 
     // Cas de base
     if (y == 0) { 
         // On arrête l'exploration et on retourne le dernier coût
@@ -52,14 +52,14 @@ int RaccordeurRecursifNaif::calculerRaccordRecu(int * coupe, const int x, const 
         // La somme des erreurs doit être plus petite que celle de la précédente coupe
         if (coutMin > cout) { 
             // On update donc la coupe minimal et le cout
-            memcpy( coupeMin, coupeTest, hauteur * sizeof(int));
-            // équivalent de : for (int i = 0; i < hauteur; i++) { coupeMin[i] = coupeTest[i];}
+            memcpy(coupeMin, coupeTest, y * sizeof(int));
+            // équivalent de : for (int i = 0; i < y; i++) { coupeMin[i] = coupeTest[i];}
             coutMin = cout;
         }
     }
 
     // On update la coupe avec le nouveau morceau de chemin optimal qui a été trouvé 
-    memcpy( coupe, coupeMin, y * sizeof(int));
+    memcpy(coupe, coupeMin, y * sizeof(int));
     // équivalent de : for (int i = 0; i < y; i++) { coupe[i] = coupeMin[i];}
     // On retourne le cout du chemin depuis la branche optimal
     return coutCurr + coutMin;

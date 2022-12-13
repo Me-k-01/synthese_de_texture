@@ -5,6 +5,7 @@
 #include "descripteur_tache.h"
 #include "raccordeur.h"
 #include "raccordeur_simple.h"
+#include "raccordeur_recursif_naif.h"
 #include "raccordeur_recursif.h"
 #include "raccordeur_iteratif.h"
 #include <ctime>
@@ -58,32 +59,38 @@ int main(int argc, char **argv){
     tache.choisirMeilleurBloc = true;
     tache.utiliserPermuteur = false;
     switch(algo) {
-        case 0:  // Algo A sans recouvrement
-            // sauf si le parametre de recouvrement a ete specifie, le mettre a 1
+        // Algo A
+        case 0:  // sans recouvrement
+            // sauf si le parametre de recouvrement a été specifié, le mettre a 1
             if (argc<5) tache.recouvrement = 1;
-            tache.choisirMeilleurBloc = false;
+            tache.choisirMeilleurBloc = false; // Bloc au hazard 
             tache.raccordeur = new RaccordeurSimple();
             break;
-        case 1: // Algo variant avec permutteur, sans recouvrement 
-            if (argc<5) tache.recouvrement = 1;
-            tache.choisirMeilleurBloc = false;
-            tache.utiliserPermuteur = true;
+        case 1: // variant avec permutteur, sans recouvrement 
+            //if (argc<5) tache.recouvrement = 1;
+            tache.choisirMeilleurBloc = false; // bloc au hasard 
+            tache.utiliserPermuteur = true; // avec le permuteur
+            tache.raccordeur = new RaccordeurSimple(); // raccord simple
+            break;
+        // Algo B
+        case 2: 
             tache.raccordeur = new RaccordeurSimple(); 
             break;
-        case 2: // Algo 
-            tache.raccordeur = new RaccordeurSimple(); 
-            break;
-        case 3: // Solution itérative sans calcul redondant 
+        // Algo C
+        case 3: // Solution recursive avec calcul redondant (non utilisable)
             tache.choisirMeilleurBloc = false;
             tache.utiliserPermuteur = true;
-            tache.raccordeur = new RaccordeurRecursif(); // Test du recu naif
+            tache.raccordeur = new RaccordeurRecursifNaif();  
             break;
-        case 4: // 
+        case 4: // Solution recursive sans calcul redondant
             tache.choisirMeilleurBloc = false;
             tache.utiliserPermuteur = true;
-            tache.raccordeur = new RaccordeurIteratif(); // Test du recu naif
+            tache.raccordeur = new RaccordeurRecursif();  
             break;
-        case 5:
+        case 5: // Solution itérative
+            tache.choisirMeilleurBloc = false;
+            tache.utiliserPermuteur = true;
+            tache.raccordeur = new RaccordeurIteratif();
             
             break;
         default:

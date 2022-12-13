@@ -20,7 +20,7 @@ C'est le critère d'erreur entre deux bandes, qui est défini par la somme des e
 
 ### 4. Quel est le rapport entre le coût de la coupe optimale et les Eij ?
 Le coût de la coupe optimale correspond à la somme de la norme des écarts RGB sur le chemin minimals
-Donc E[i,j] est égal au coût de la coupe optimale de la ligne 0 à i.
+Donc E[i,j] est égal au coût de la coupe optimale de la ligne 0 à la ligne j.
 
 
 ### 5. Clarifiez la notion de coupe optimale sur l’exemple suivant:

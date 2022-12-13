@@ -1,6 +1,9 @@
 import subprocess
 from time import time
 
+# A faire avant de lancer la benchmark: 
+# Il faut retirer tous les screen->Click(); dans textureur.cpp, afin d'éviter de bloquer la sortie   
+
 def chrono(num):
     now = time()
 
